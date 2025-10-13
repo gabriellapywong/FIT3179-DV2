@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Population & Coverage by State — label = MBS Bulk Billing Rate (%)",
+  "width": 980,
+  "height": 420,
+  "projection": { "type": "equirectangular" },
+  "config": { "view": { "stroke": null } },
+
+  "params": [
+    { "name": "DateSel", "value": "2024-03-01", "bind": { "input": "date" } },
+    { "name": "svcSel", "value": null },
+    { "name": "metricMode", "value": "attendance", "bind": { "input": "select", "options": ["attendance", "money"] } }
+  ],
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/au_states_3.json",
+        "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.STE_NAME21",
+          "from": {
+            "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/population_cleaned.csv" },
+            "transform": [
+              { "filter": "toDate(datum.Period) == toDate(DateSel)" },
+              { "filter": "datum.State != 'Australia' && datum.State != 'Unknown'" }
+            ],
+            "key": "State",
+            "fields": ["Population"]
+          }
+        },
+        {
+          "lookup": "properties.STE_NAME21",
+          "from": {
+            "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv" },
+            "transform": [
+              { "filter": "toDate(datum.Period) == toDate(DateSel)" },
+              { "filter": "datum.State != 'Australia' && datum.State != 'Unknown'" },
+              { "filter": "datum['Broad Type of Service'] == 'Total Medicare'" }
+            ],
+            "key": "State",
+            "fields": ["MBS Bulk Billing Rate (%)"]
+          }
+        }
+      ],
+      "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.8 },
+      "encoding": {
+        "color": {
+          "field": "Population",
+          "type": "quantitative",
+          "title": "Population",
+          "scale": { "scheme": "blues" }
+        }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          { "State": "New South Wales", "lon": 147.0, "lat": -32.9 },
+          { "State": "Victoria", "lon": 144.2, "lat": -36.8 },
+          { "State": "Queensland", "lon": 144.0, "lat": -20.5 },
+          { "State": "South Australia", "lon": 135.5, "lat": -30.5 },
+          { "State": "Western Australia", "lon": 122.0, "lat": -25.0 },
+          { "State": "Tasmania", "lon": 146.8, "lat": -42.0 },
+          { "State": "Northern Territory", "lon": 133.0, "lat": -19.0 },
+          { "State": "Australian Capital Territory", "lon": 149.1, "lat": -35.4 }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "State",
+          "from": {
+            "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv" },
+            "transform": [
+              { "filter": "toDate(datum.Period) == toDate(DateSel)" },
+              { "filter": "datum.State != 'Australia' && datum.State != 'Unk'" },
+              { "filter": "datum['Broad Type of Service'] == 'Total Medicare'" }
+            ],
+            "key": "State",
+            "fields": ["MBS Bulk Billing Rate (%)"]
+          }
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 15,
+        "fontWeight": "bold",
+        "fill": "#0f172a"
+      },
+      "encoding": {
+        "longitude": { "field": "lon" },
+        "latitude": { "field": "lat" },
+        "text": { "field": "MBS Bulk Billing Rate (%)", "type": "quantitative", "format": ".0%" }
+      }
+    }
+  ]
+}
