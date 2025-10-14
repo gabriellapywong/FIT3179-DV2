@@ -59,9 +59,7 @@
         ]
       }
     },
-    { "calculate": "trim(datum['properties.STE_NAME21'])", "as": "StateName" },
-    { "filter": "p_State != 'Australia' && p_State != 'Unknown'" },
-    { "calculate": "toNumber(datum[Quarter])", "as": "Pop_num" }
+    { "calculate": "toNumber(datum[QuarterSel])", "as": "Pop_num" }
   ],
 
   "mark": { "type": "geoshape", "stroke": "#555", "strokeWidth": 0.6 },
