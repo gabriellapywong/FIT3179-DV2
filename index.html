@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Australia Medicare & Population — DV2</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <!-- <style>
+    :root { --maxw: 1100px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; color:#0f172a; }
+    header { max-width: var(--maxw); margin: 48px auto 12px; padding: 0 16px; }
+    h1 { font-size: 28px; margin: 0 0 8px; }
+    p.lead { margin: 0 0 28px; color:#475569; }
+    main { max-width: var(--maxw); margin: 0 auto 80px; padding: 0 16px; }
+    section { margin: 28px 0 48px; }
+    .card { border:1px solid #e2e8f0; border-radius:14px; padding:14px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  </style> -->
+
+  <link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/css/styles.css" media="all">
+
+</head>
+<body>
+  <header>
+    <h1>Medicare Usage & Funding Across Australia</h1>
+    <p class="lead">Explore population by state, the mix of Medicare service types, and bulk-billing trends over time.</p>
+  </header>
+
+  <main>
+    <section class="card"><div id="map"></div></section>
+    <section class="card"><div id="stacked"></div></section>
+    <section class="card"><div id="trend"></div></section>
+  </main>
+
+  <script>
+    // 👇 Replace these with your raw GitHub links to the .vg.json specs
+    const MAP_SPEC_URL     = "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/map_final.vg.json";
+    const STACKED_SPEC_URL = "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/stack_bar.vg.json";
+    const TREND_SPEC_URL   = "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/trend.vg.json";
+
+    vegaEmbed("#map", MAP_SPEC_URL,     {actions:false});
+    vegaEmbed("#stacked", STACKED_SPEC_URL, {actions:false});
+    vegaEmbed("#trend", TREND_SPEC_URL,   {actions:false});
+  </script>
+</body>
+</html>
