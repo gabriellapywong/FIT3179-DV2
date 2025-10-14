@@ -8,7 +8,7 @@
 
   "params": [
     {
-      "name": "QuarterSel",
+      "name": "Quarter",
       "value": "2024-25 Q3 (Mar Qtr)",
       "bind": {
         "input": "select",
@@ -27,8 +27,6 @@
       }
     }
   ],
-
-
 
   "data": {
     "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/au_states_3.json",
@@ -59,7 +57,23 @@
         ]
       }
     },
-    { "calculate": "toNumber(datum[QuarterSel])", "as": "Pop_num" }
+
+    { "calculate": "toNumber(datum[Quarter])", "as": "Pop_num" },
+    { "calculate": "Quarter", "as": "QuarterStr" },
+
+    {
+        "lookup": "properties.STE_NAME21",
+        "from": {
+        "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv" },
+        "transform": [
+            { "filter": "datum[s_Quarter] == QuarterStr" },
+            { "filter": "datum['Broad Type of Service'] == 'Total Medicare'" }
+        ],
+        "key": "s_State",
+        "fields": ["MBS Bulk Billing Rate (%)"]
+        }
+    }
+
   ],
 
   "mark": { "type": "geoshape", "stroke": "#555", "strokeWidth": 0.6 },
@@ -72,9 +86,10 @@
       "title": "Population"
     },
     "tooltip": [
-      { "field": "StateName", "type": "nominal", "title": "State" },
-      { "expr": "Quarter", "type": "nominal", "title": "Quarter" },
-      { "field": "Pop_num", "type": "quantitative", "title": "Population", "format": "," }
+      { "field": "p_State", "type": "nominal", "title": "State" },
+      { "field": "QuarterStr", "type": "nominal", "title": "Quarter" },
+      { "field": "Pop_num", "type": "quantitative", "title": "Population", "format": "," },
+      { "field": "MBS Bulk Billing Rate (%)", "type": "quantitative", "title": "MBS Bulk Billing Rate (%)" }
     ]
   }
 }
