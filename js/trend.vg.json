@@ -42,7 +42,13 @@
     { "calculate": "toNumber(datum['MBS Bulk Billing Rate (%)'])", "as": "mbs_rate" }
   ],
 
-  "mark": { "type": "line", "point": false, "strokeWidth": 2 },
+  "mark": {
+    "type": "line",
+    "point": {
+      "filled": true
+    },
+    "interpolate": "monotone"
+  },
 
   "encoding": {
     "x": {
