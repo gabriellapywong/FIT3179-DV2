@@ -8,59 +8,51 @@
 
   "params": [
     {
-        "name": "DateSel",
-        "value": "2025-03-01",
-        "bind": {
-            "input": "select",
-            "options": [
-            "2015-09-01","2015-12-01","2016-03-01","2016-06-01",
-            "2016-09-01","2016-12-01","2017-03-01","2017-06-01",
-            "2017-09-01","2017-12-01","2018-03-01","2018-06-01",
-            "2018-09-01","2018-12-01","2019-03-01","2019-06-01",
-            "2019-09-01","2019-12-01","2020-03-01","2020-06-01",
-            "2020-09-01","2020-12-01","2021-03-01","2021-06-01",
-            "2021-09-01","2021-12-01","2022-03-01","2022-06-01",
-            "2022-09-01","2022-12-01","2023-03-01","2023-06-01",
-            "2023-09-01","2023-12-01","2024-03-01","2024-06-01",
-            "2024-09-01","2024-12-01","2025-03-01"
-            ],
-            "labels": [
-            "2015-16 Q1 (Sep Qtr)","2015-16 Q2 (Dec Qtr)","2015-16 Q3 (Mar Qtr)","2015-16 Q4 (Jun Qtr)",
-            "2016-17 Q1 (Sep Qtr)","2016-17 Q2 (Dec Qtr)","2016-17 Q3 (Mar Qtr)","2016-17 Q4 (Jun Qtr)",
-            "2017-18 Q1 (Sep Qtr)","2017-18 Q2 (Dec Qtr)","2017-18 Q3 (Mar Qtr)","2017-18 Q4 (Jun Qtr)",
-            "2018-19 Q1 (Sep Qtr)","2018-19 Q2 (Dec Qtr)","2018-19 Q3 (Mar Qtr)","2018-19 Q4 (Jun Qtr)",
-            "2019-20 Q1 (Sep Qtr)","2019-20 Q2 (Dec Qtr)","2019-20 Q3 (Mar Qtr)","2019-20 Q4 (Jun Qtr)",
-            "2020-21 Q1 (Sep Qtr)","2020-21 Q2 (Dec Qtr)","2020-21 Q3 (Mar Qtr)","2020-21 Q4 (Jun Qtr)",
-            "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
-            "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
-            "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
-            "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)"
-            ]
-        }
+      "name": "QuarterSel",
+      "value": "2024-25 Q3 (Mar Qtr)",
+      "bind": {
+        "input": "select",
+        "options": [
+          "2015-16 Q1 (Sep Qtr)","2015-16 Q2 (Dec Qtr)","2015-16 Q3 (Mar Qtr)","2015-16 Q4 (Jun Qtr)",
+          "2016-17 Q1 (Sep Qtr)","2016-17 Q2 (Dec Qtr)","2016-17 Q3 (Mar Qtr)","2016-17 Q4 (Jun Qtr)",
+          "2017-18 Q1 (Sep Qtr)","2017-18 Q2 (Dec Qtr)","2017-18 Q3 (Mar Qtr)","2017-18 Q4 (Jun Qtr)",
+          "2018-19 Q1 (Sep Qtr)","2018-19 Q2 (Dec Qtr)","2018-19 Q3 (Mar Qtr)","2018-19 Q4 (Jun Qtr)",
+          "2019-20 Q1 (Sep Qtr)","2019-20 Q2 (Dec Qtr)","2019-20 Q3 (Mar Qtr)","2019-20 Q4 (Jun Qtr)",
+          "2020-21 Q1 (Sep Qtr)","2020-21 Q2 (Dec Qtr)","2020-21 Q3 (Mar Qtr)","2020-21 Q4 (Jun Qtr)",
+          "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
+          "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
+          "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
+          "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)"
+        ]
+      }
     }
-
   ],
 
   "data": {
-    "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/au_states_3.json",
-    "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
+    "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/population_cleaned.csv",
+    "format": { "type": "csv" }
   },
 
   "transform": [
+    { "filter": "datum.p_Quarter === QuarterSel" },
+
     {
-      "lookup": "properties.STE_NAME21",
+      "lookup": "p_State",
       "from": {
-        "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/population_cleaned.csv"},
-        "key": "State",
-        "fields": ["Population", "p_Period", "p_Quarter"]
+        "data": {
+          "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/au_states_3.json",
+          "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
+        },
+        "key": "properties.STE_NAME21",
+        "fields": ["geometry"]
       }
-    },
-    { "filter": "toDate(datum.p_Period) == toDate(DateSel)" }
+    }
   ],
 
-  "mark": { "type": "geoshape", "stroke": "#fff", "strokeWidth": 0.8 },
+  "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.8 },
 
   "encoding": {
+    "shape": { "field": "geometry" },
     "color": {
       "field": "Population",
       "type": "quantitative",
@@ -68,7 +60,8 @@
       "scale": { "scheme": "blues" }
     },
     "tooltip": [
-      { "field": "properties.STE_NAME21", "title": "State" },
+      { "field": "p_State_trim", "title": "State" },
+      { "field": "p_Quarter", "title": "Quarter" },
       { "field": "Population", "title": "Population", "format": "~s" }
     ]
   }

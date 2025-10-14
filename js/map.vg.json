@@ -24,10 +24,10 @@
           "from": {
             "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/population_cleaned.csv" },
             "transform": [
-              { "filter": "toDate(datum.Period) == toDate(DateSel)" },
-              { "filter": "datum.State != 'Australia' && datum.State != 'Unknown'" }
+              { "filter": "toDate(datum.p_Period) == toDate(DateSel)" },
+              { "filter": "datum.p_State != 'Australia' && datum.p_State != 'Unknown'" }
             ],
-            "key": "State",
+            "key": "p_State",
             "fields": ["Population"]
           }
         },
@@ -36,11 +36,11 @@
           "from": {
             "data": { "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv" },
             "transform": [
-              { "filter": "toDate(datum.Period) == toDate(DateSel)" },
-              { "filter": "datum.State != 'Australia' && datum.State != 'Unknown'" },
+              { "filter": "toDate(datum.s_Period) == toDate(DateSel)" },
+              { "filter": "datum.s_State != 'Australia' && datum.s_State != 'Unknown'" },
               { "filter": "datum['Broad Type of Service'] == 'Total Medicare'" }
             ],
-            "key": "State",
+            "key": "s_State",
             "fields": ["MBS Bulk Billing Rate (%)"]
           }
         }

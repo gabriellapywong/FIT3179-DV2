@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": { "view": { "stroke": null } },
+  "title": "Population by state — Australia",
+  "width": 900,
+  "height": 520,
+  "projection": { "type": "equirectangular" },
+
+  "params": [
+    {
+      "name": "QuarterSel",
+      "value": "2024-25 Q3 (Mar Qtr)",
+      "bind": {
+        "input": "select",
+        "options": [
+          "2015-16 Q1 (Sep Qtr)","2015-16 Q2 (Dec Qtr)","2015-16 Q3 (Mar Qtr)","2015-16 Q4 (Jun Qtr)",
+          "2016-17 Q1 (Sep Qtr)","2016-17 Q2 (Dec Qtr)","2016-17 Q3 (Mar Qtr)","2016-17 Q4 (Jun Qtr)",
+          "2017-18 Q1 (Sep Qtr)","2017-18 Q2 (Dec Qtr)","2017-18 Q3 (Mar Qtr)","2017-18 Q4 (Jun Qtr)",
+          "2018-19 Q1 (Sep Qtr)","2018-19 Q2 (Dec Qtr)","2018-19 Q3 (Mar Qtr)","2018-19 Q4 (Jun Qtr)",
+          "2019-20 Q1 (Sep Qtr)","2019-20 Q2 (Dec Qtr)","2019-20 Q3 (Mar Qtr)","2019-20 Q4 (Jun Qtr)",
+          "2020-21 Q1 (Sep Qtr)","2020-21 Q2 (Dec Qtr)","2020-21 Q3 (Mar Qtr)","2020-21 Q4 (Jun Qtr)",
+          "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
+          "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
+          "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
+          "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)"
+        ]
+      }
+    }
+  ],
+
+
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/au_states_3.json",
+    "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
+  },
+
+  "transform": [
+    {
+      "lookup": "properties.STE_NAME21",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/population_wide.csv",
+          "format": { "type": "csv" }
+        },
+        "key": "p_State",
+        "fields": [
+          "2015-16 Q1 (Sep Qtr)","2015-16 Q2 (Dec Qtr)","2015-16 Q3 (Mar Qtr)","2015-16 Q4 (Jun Qtr)",
+          "2016-17 Q1 (Sep Qtr)","2016-17 Q2 (Dec Qtr)","2016-17 Q3 (Mar Qtr)","2016-17 Q4 (Jun Qtr)",
+          "2017-18 Q1 (Sep Qtr)","2017-18 Q2 (Dec Qtr)","2017-18 Q3 (Mar Qtr)","2017-18 Q4 (Jun Qtr)",
+          "2018-19 Q1 (Sep Qtr)","2018-19 Q2 (Dec Qtr)","2018-19 Q3 (Mar Qtr)","2018-19 Q4 (Jun Qtr)",
+          "2019-20 Q1 (Sep Qtr)","2019-20 Q2 (Dec Qtr)","2019-20 Q3 (Mar Qtr)","2019-20 Q4 (Jun Qtr)",
+          "2020-21 Q1 (Sep Qtr)","2020-21 Q2 (Dec Qtr)","2020-21 Q3 (Mar Qtr)","2020-21 Q4 (Jun Qtr)",
+          "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
+          "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
+          "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
+          "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)",
+          "p_State"
+        ]
+      }
+    },
+    { "calculate": "trim(datum['properties.STE_NAME21'])", "as": "StateName" },
+    { "filter": "p_State != 'Australia' && p_State != 'Unknown'" },
+    { "calculate": "toNumber(datum[Quarter])", "as": "Pop_num" }
+  ],
+
+  "mark": { "type": "geoshape", "stroke": "#555", "strokeWidth": 0.6 },
+
+  "encoding": {
+    "color": {
+      "field": "Pop_num",
+      "type": "quantitative",
+      "scale": { "type": "linear", "scheme": "blues" },
+      "title": "Population"
+    },
+    "tooltip": [
+      { "field": "StateName", "type": "nominal", "title": "State" },
+      { "expr": "Quarter", "type": "nominal", "title": "Quarter" },
+      { "field": "Pop_num", "type": "quantitative", "title": "Population", "format": "," }
+    ]
+  }
+}
