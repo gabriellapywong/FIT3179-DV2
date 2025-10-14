@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "config": { "view": { "stroke": null } },
-  "title": "Population by state — Australia",
+  "title": "State‐by‐State Population & Medicare Bulk-Billing",
   "width": 900,
   "height": 520,
   "projection": { "type": "equirectangular" },
@@ -53,8 +53,7 @@
             "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
             "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
             "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
-            "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)",
-            "p_State"
+            "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)"
           ]
         }
       },
@@ -287,11 +286,10 @@
         "title": "Population"
       },
       "tooltip": [
-        { "field": "p_State", "type": "nominal", "title": "State" },
+        { "field": "properties.STE_NAME21", "type": "nominal", "title": "State" },
         { "field": "QuarterStr", "type": "nominal", "title": "Quarter" },
         { "field": "Pop_num", "type": "quantitative", "title": "Population", "format": "," },
-        { "field": "MBS_rate", "type": "quantitative", "title": "MBS Rate", "format": ".1%" },
-        { "field": "colKey", "type": "nominal", "title": "Quacvbnrter" }
+        { "field": "MBS_rate", "type": "quantitative", "title": "MBS Rate", "format": ".1%" }
       ]
     }
   },
@@ -356,8 +354,7 @@
             "MBS Rate - 2023-24 Q4 (Jun Qtr)",
             "MBS Rate - 2024-25 Q1 (Sep Qtr)",
             "MBS Rate - 2024-25 Q2 (Dec Qtr)",
-            "MBS Rate - 2024-25 Q3 (Mar Qtr)",
-            ""
+            "MBS Rate - 2024-25 Q3 (Mar Qtr)"
         ]
       }
     },

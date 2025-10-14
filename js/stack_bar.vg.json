@@ -1,0 +1,107 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Service Composition by State (100% Stacked)",
+  "width": 980,
+  "height": 320,
+  "config": { "view": { "stroke": null } },
+
+  "params": [
+    {
+      "name": "Quarter",
+      "value": "2024-25 Q3 (Mar Qtr)",
+      "bind": {
+        "input": "select",
+        "options": [
+          "2015-16 Q1 (Sep Qtr)","2015-16 Q2 (Dec Qtr)","2015-16 Q3 (Mar Qtr)","2015-16 Q4 (Jun Qtr)",
+          "2016-17 Q1 (Sep Qtr)","2016-17 Q2 (Dec Qtr)","2016-17 Q3 (Mar Qtr)","2016-17 Q4 (Jun Qtr)",
+          "2017-18 Q1 (Sep Qtr)","2017-18 Q2 (Dec Qtr)","2017-18 Q3 (Mar Qtr)","2017-18 Q4 (Jun Qtr)",
+          "2018-19 Q1 (Sep Qtr)","2018-19 Q2 (Dec Qtr)","2018-19 Q3 (Mar Qtr)","2018-19 Q4 (Jun Qtr)",
+          "2019-20 Q1 (Sep Qtr)","2019-20 Q2 (Dec Qtr)","2019-20 Q3 (Mar Qtr)","2019-20 Q4 (Jun Qtr)",
+          "2020-21 Q1 (Sep Qtr)","2020-21 Q2 (Dec Qtr)","2020-21 Q3 (Mar Qtr)","2020-21 Q4 (Jun Qtr)",
+          "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
+          "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
+          "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
+          "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)"
+        ]
+      }
+    },
+    { "name": "metricMode", "value": "attendance", "bind": { "input": "select", "options": ["Attendance","Benefits ($)"] } }
+  ],
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv",
+    "format": { "type": "csv" }
+  },
+
+  "transform": [
+    { "filter": "datum['s_State'] != 'Australia' && datum['s_State'] != 'Unknown'" },
+    { "filter": "datum['s_Quarter'] === Quarter" },
+    { "filter": "datum['Broad Type of Service'] != 'Total Medicare'" },
+    { "filter": "datum['Broad Type of Service'] != 'Total Operations'" },
+    { "filter": "datum['Broad Type of Service'] != 'Total Pathology'" },
+
+    { "calculate": "toNumber(datum['Services'])",     "as": "Services_num" },
+    { "calculate": "toNumber(datum['Benefits ($)'])",  "as": "Benefits_num" },
+
+    {
+      "joinaggregate": [
+        { "op": "sum", "field": "Services_num", "as": "Total_services_state" },
+        { "op": "sum", "field": "Benefits_num", "as": "Total_benefits_state" }
+      ],
+      "groupby": ["s_State"]
+    },
+
+    { "calculate": "metricMode === 'Attendance' ? datum.Services_num : datum.Benefits_num", "as": "MetricValue" },
+    { "calculate": "metricMode === 'Attendance' ? datum.Total_services_state : datum.Total_benefits_state", "as": "StateTotal" },
+    { "calculate": "datum.Total_services_state", "as": "StateTotalNo" },
+    { "calculate": "datum.Total_benefits_state", "as": "StateTotalMoney" },
+
+    {
+      "calculate": "metricMode === 'attendance' ? (datum.Total_services_state > 0 ? datum.Services_num / datum.Total_services_state : null) : (datum.Total_benefits_state > 0 ? datum.Benefits_num / datum.Total_benefits_state : null)",
+      "as": "SharePct"
+    }
+
+  ],
+
+  "mark": { "type": "bar" },
+
+  "encoding": {
+    "x": {
+      "field": "s_State",
+      "type": "ordinal",
+      "title": "States",
+      "sort": ["NSW","Qld","Vic","WA","SA","NT","Tas","ACT"],
+      "axis": {
+        "labelAngle": 0,          
+        "labelPadding": 6,
+        "labelOverlap": true,
+        "labelLimit": 140
+  }
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "MetricValue",
+      "type": "quantitative",
+      "stack": "normalize",
+      "title": "Share (%)",
+      "axis": { "format": ".0%" }
+    },
+    "color": {
+      "field": "Broad Type of Service",
+      "type": "nominal",
+      "title": "Service type",
+      "scale": { "scheme": "tableau10" }
+    },
+    "order": { "field": "Broad Type of Service", "type": "nominal" },
+    "tooltip": [
+      { "field": "s_State", "title": "State" },
+      { "field": "s_Quarter", "title": "Quarter" },
+      { "field": "Broad Type of Service", "title": "Service type" },
+      { "field": "Services_num", "title": "Number of services", "format": "~s" },
+      { "field": "Benefits_num", "title": "Benefits (A$)", "format": "~s" },
+      { "field": "StateTotalNo", "title": "Total attendance (state)", "format": "~s" },
+      { "field": "StateTotalMoney", "title": "Total benefit (state)", "format": "~s" },
+      { "field": "SharePct", "title": "Share", "format": ".1%" }
+    ]
+  }
+}

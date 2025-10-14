@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "How Usage Changes Over Time — MBS Bulk-Billing Rate",
+  "width": 980,
+  "height": 320,
+  "config": { "view": { "stroke": null } },
+
+  "params": [
+    {
+      "name": "StateSel",
+      "value": "Australia",
+      "bind": {
+        "input": "select",
+        "name": "State: ",
+        "options": [
+          "Australia",
+          "New South Wales",
+          "Victoria",
+          "Queensland",
+          "South Australia",
+          "Western Australia",
+          "Tasmania",
+          "Northern Territory",
+          "Australian Capital Territory"
+        ]
+      }
+    }
+  ],
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv",
+    "format": { "type": "csv" }
+  },
+
+  "transform": [
+    { "filter": "datum['s_State'] === StateSel" },
+
+    { "filter": "datum['Broad Type of Service'] != 'Total Medicare'" },
+    { "filter": "datum['Broad Type of Service'] != 'Total Operations'" },
+    { "filter": "datum['Broad Type of Service'] != 'Total Pathology'" },
+
+    { "calculate": "toNumber(datum['MBS Bulk Billing Rate (%)'])", "as": "mbs_rate" }
+  ],
+
+  "mark": { "type": "line", "point": false, "strokeWidth": 2 },
+
+  "encoding": {
+    "x": {
+      "timeUnit": "yearquarter",
+      "field": "s_Period",
+      "type": "temporal",
+      "title": "Time (quarter)"
+    },
+    "y": {
+      "field": "mbs_rate",
+      "type": "quantitative",
+      "title": "Bulk-billing rate",
+      "axis": { "format": ".1%" }
+    },
+    "color": {
+      "field": "Broad Type of Service",
+      "type": "nominal",
+      "title": "Service type",
+      "legend": { "orient": "right" }
+    },
+    "tooltip": [
+      { "field": "s_State", "title": "State" },
+      { "field": "s_Quarter", "title": "Quarter" },
+      { "field": "Broad Type of Service", "title": "Service type" },
+      { "field": "mbs_rate", "title": "MBS bulk-billing rate", "format": ".1%" }
+    ]
+  }
+}
