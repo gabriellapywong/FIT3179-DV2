@@ -276,7 +276,7 @@
       { "calculate": "toNumber(datum[datum.colKey])", "as": "MBS_rate" }
     ],
 
-    "mark": { "type": "geoshape", "stroke": "#555", "strokeWidth": 0.6 },
+    "mark": { "type": "geoshape", "stroke": "#555", "strokeWidth": 0.3 },
 
     "encoding": {
       "color": {
