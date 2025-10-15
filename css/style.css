@@ -20,8 +20,8 @@ p.lead{ margin:0 0 28px; color:#475569; }
 
 main{
   max-width: var(--maxw);
-  margin:0 auto 96px;
-  padding:0 var(--outerpad);        /* bigger outer padding */
+  margin:100 auto 96px;
+  padding:100 var(--outerpad);        /* bigger outer padding */
 }
 
 section{ margin:28px 0 48px; }
