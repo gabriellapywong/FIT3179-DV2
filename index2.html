@@ -15,14 +15,14 @@
     --gap: 1rem;
     --radius: 16px;
     --pad: 1rem;
-    --card-bg: pink;
-    --card-border: 1px solid #e5e7eb;
-    --shadow: 0 6px 18px rgba(0,0,0,.06);
+    --card-bg: rgba(219, 231, 231, 0.462);
+    --card-border: 1px solid rgb(126, 146, 146);
+    --shadow: 0 6px 18px rgba(0,0,0,.1);
   }
 
   * { box-sizing: border-box; }
   body {
-    margin: 0; background: #f6f7fb; color: #111;
+    background-color:rgb(255, 245, 231);
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
 
@@ -30,8 +30,8 @@
   .page {
     width: 100%;
     margin: 20px auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 50px;
+    padding-right: 50px;
     display: flex;
     flex-direction: column;
     gap: calc(var(--gap) * 1.25);
@@ -49,9 +49,10 @@
   /* Each horizontal container (row) */
   .row{
     display: grid;
-    grid-template-columns: 1fr 1fr;  /* equal width left/right */
+    grid-template-columns: 65% 35%;
     gap: var(--gap);
     align-items: stretch;
+    margin-top: 20px;
   }
 
   /* Cards */
@@ -61,6 +62,7 @@
     border-radius: var(--radius);
     padding: var(--pad);
     box-shadow: var(--shadow);
+    justify-content: center;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -81,7 +83,7 @@
   background: rgb(252, 245, 236);
   border: var(--card-border);
   border-radius: var(--radius);
-  padding: var(--pad);
+  padding: 0;
   box-shadow: var(--shadow);
 
   display: inline-block;     
@@ -91,9 +93,19 @@
   height: auto;             
 }
 
-  /* Optional themed sides */
-  .card-left  { background: #f7f0ff; }   /* soft lilac */
-  .card-right { background: #fffdf2; }   /* soft warm */
+.card-content, .card{ width:100%; }        /* fill grid column */
+.chart, .card canvas, .card svg{
+  width:100% !important;    /* chart scales to card */
+  height:auto;
+  display:block;
+}
+
+.card-content p{
+  margin: 0 0 .6rem;      /* bottom gap only, smaller */
+}
+.card-content p:last-child{
+  margin-bottom: 0;       /* no extra gap after the last one */
+}
 
   /* Responsive: stack on small screens */
   @media (max-width: 800px){
@@ -102,7 +114,7 @@
 
 /* Info panel base */
 .info-panel{
-  --panel-bg: rgb(251, 246, 239);          /* soft info background */
+  --panel-bg: rgb(255, 251, 246);          /* soft info background */
   --panel-accent: rgb(255, 162, 41);      /* accent blue */
   --panel-text: rgb(70, 44, 10);
 
@@ -163,7 +175,7 @@
     <p class="desc">This dashboard explores how Australians use Medicare services over time and across states. We combine two datasets: 
         population by state and Medicare Benefits Schedule (MBS) claims (services, government benefits paid, and bulk-billing rates). “Bulk-billing” means the provider accepts the Medicare rebate as full payment so the patient pays $0 out-of-pocket.</p>
   
-    
+<!--     
     <section class="row">
       <div class="left">
         <article class="card">
@@ -184,7 +196,7 @@
 
         </div>
       </aside>
-    </section>
+    </section> -->
 
 
     <!-- Row 1 -->
@@ -210,9 +222,8 @@
         <div class="icon">i</div>
         <h4 class="title">How to read</h4>
         <p class="body">
-            The map shades each state by total population in the selected quarter. Labels show the MBS
-            bulk-billing rate (share of services fully bulk-billed). Use this to spot where population concentration
-            and coverage differ.
+            The map shades each state by <strong>total population</strong> in the selected quarter. Labels show the <strong>MBS bulk-billing rate</strong> 
+            (share of services <em>fully bulk-billed</em>). Use this to spot differences between <strong>population concentration</strong> and <strong>coverage</strong>.
         </p>
         </div>
 
@@ -229,26 +240,32 @@
 
         <article class="card-content">
             <p>
-                Across all states, Total GP Non-Referred Attendances consistently make up the largest share of services (around 37–42%), 
-                reflecting their role as the most common and general type of Medicare service. This is followed by Diagnostic Imaging and Practice Nurse services.
+                Across all states, <strong>Total GP Non-Referred Attendances</strong> consistently make up the largest share of services (around <strong>37–42%</strong>), 
+                reflecting their role as the most <strong>common</strong> and <strong>general</strong> type of Medicare service. This is followed by <strong>Diagnostic Imaging</strong> 
+                and <strong>Practice Nurse</strong> services.
             </p>
+            
             <p>
-                When viewed by Benefits ($) — which represent the government expenditure or rebate amount paid for each service — GPs still account for roughly 
-                40% of total benefits. However, the Practice Nurse share drops to below 0.5%, while other higher-cost services contribute more significantly. 
-                This difference likely reflects the variation in unit cost per service, as specialist or imaging services tend to attract higher benefit payments.
+                When viewed by <strong>Benefits ($)</strong> — representing <em>government expenditure</em> or <em>rebate payments</em> for each service — GPs still account for roughly 
+                <strong>40%</strong> of total benefits. However, the <strong>Practice Nurse</strong> share drops to below <strong>0.5%</strong>, while other <em>higher-cost services</em> 
+                contribute more significantly. This difference reflects variation in <strong>unit cost per service</strong>, as specialist or imaging services tend to attract higher benefit 
+                payments.
             </p>
+            
             <p>
-                Overall, attendance volume and benefits are positively correlated, with states like New South Wales showing the highest totals in both measures. 
-                The composition pattern remains broadly consistent across states, indicating a stable national distribution of Medicare service types.
+                Overall, <strong>attendance volume</strong> and <strong>benefits</strong> are <em>positively correlated</em>, with states like <strong>New South Wales</strong> 
+                showing the highest totals in both measures. The composition pattern remains <strong>consistent</strong> across states, indicating a <em>stable national distribution</em> 
+                of Medicare service types.
             </p>
 
         <div class="info-panel" role="note" aria-label="Map explanation">
             <div class="icon">i</div>
             <h4 class="title">How to read</h4>
             <p class="body">
-                For the selected quarter, each bar sums to 100% within a state. Segment sizes show the share of service types (e.g., GP attendances, diagnostic 
-                imaging, pathology, obstetrics, etc.). The Metric control toggles the basis: Attendance = share of the number of services; Benefits ($) = share of 
-                government Benefits ($) paid. Hover to see the state, quarter, segment value, and its share.
+                Each bar shows one state and totals <strong>100%</strong> for the selected quarter. Segment sizes represent the 
+                <strong>share of service types</strong> such as GP attendances, diagnostic imaging, and pathology. The <em>Metric</em> 
+                control switches between <strong>Attendance</strong> (share of total services) and <strong>Benefits ($)</strong> 
+                (share of government payments). Hover over a segment to view the <strong>state, quarter, value,</strong> and <strong>percentage</strong>.
             </p>
         </div>
 
@@ -258,19 +275,34 @@
 
     <!-- Row 3 -->
     <section class="row">
-      <div class="left">
-        <article class="card">
-          <h3>Row 3 • Left Top</h3>
-          <p>Use this card for any text or small components.</p>
-        </article>
-
-      </div>
-
-      <aside class="right">
         <div class="card">
-          <h3>Row 3 • Right Card</h3>
-          <p>Right-side content for the third row.</p>
+            <div id="trend" class="chart"></div>
         </div>
+
+        <article class="card-content">
+            <p>
+                Over time, most <strong>service types</strong> have shown relatively <strong>stable bulk-billing rates</strong>, with <strong>Total GP Non-Referred Attendances</strong> 
+                and <strong>Optometry</strong> remaining the highest—close to <strong>100%</strong> and <strong>95%</strong> respectively. <strong>Diagnostic Imaging</strong> 
+                and <strong>Practice Nurse</strong> services also maintain consistently high rates, while <strong>Other Allied Health</strong> and <strong>Obstetrics</strong> 
+                have gradually declined since <em>2021</em>. 
+            </p>
+            <p>
+                Overall, the trends indicate that bulk-billing remains <strong>widespread</strong> across service types, though certain 
+                categories with higher costs or specialized procedures show a <strong>slower or decreasing uptake</strong>.
+            </p>
+
+
+        <div class="info-panel" role="note" aria-label="Map explanation">
+            <div class="icon">i</div>
+            <h4 class="title">How to read</h4>
+            <p class="body">
+                Lines show the <strong>MBS bulk-billing rate</strong> by service type across quarters. Select a <strong>state</strong> 
+                (default: <em>Australia</em>) to compare how coverage has changed over time. The rate equals <strong>bulk-billed services ÷ total services</strong> 
+                for each type and quarter, with smooth curves highlighting <em>long-term trends</em>.
+            </p>
+        </div>
+
+        </article>
       </aside>
     </section>
 
