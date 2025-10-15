@@ -4,12 +4,8 @@ body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 }
 
-header{
-  max-width: var(--maxw);
-  margin:48px auto 12px;
-  padding:0 var(--outerpad);
-}
-h1{ font-size:28px; margin:0 0 8px; }
+
+h1{ font-size:28px; }
 p.lead{ margin:0 0 28px; color:#475569; }
 
 .card{
@@ -20,14 +16,9 @@ p.lead{ margin:0 0 28px; color:#475569; }
   border-radius:14px;
   box-shadow:0 1px 2px rgba(0,0,0,.04);
   background:#fff;
-  overflow:hidden;                  /* keep legends inside */
+
 }
 
-/* center the chart within the card */
-.chart{
-  display:flex;
-  justify-content:center;           /* centers fixed-width SVGs */
-}
 
 /* make embeds responsive up to the card width */
 .chart .vega-embed,
