@@ -15,7 +15,7 @@
     --gap: 1rem;
     --radius: 16px;
     --pad: 1rem;
-    --card-bg: #fff;
+    --card-bg: pink;
     --card-border: 1px solid #e5e7eb;
     --shadow: 0 6px 18px rgba(0,0,0,.06);
   }
@@ -38,16 +38,12 @@
   }
 
   h1 {
-    text-align: center;
     font-size: 32px;
     margin-bottom: 0px;
   }
   .desc {
-    text-align: center;
     font-size: 18px;
     margin-top: 0px;
-    margin-left: 20px;
-    margin-right: 20px;
   }
 
   /* Each horizontal container (row) */
@@ -71,6 +67,30 @@
     gap: .5rem;
   }
 
+.card-content{
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  justify-content: center;
+  align-items: flex-start;  
+  height: auto;             
+}
+
+.instruction{
+  background: rgb(252, 245, 236);
+  border: var(--card-border);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  box-shadow: var(--shadow);
+
+  display: inline-block;     
+  width: fit-content;        
+  max-width: 100%;        
+  margin: 0;
+  height: auto;             
+}
+
   /* Optional themed sides */
   .card-left  { background: #f7f0ff; }   /* soft lilac */
   .card-right { background: #fffdf2; }   /* soft warm */
@@ -79,6 +99,61 @@
   @media (max-width: 800px){
     .row{ grid-template-columns: 1fr; }
   }
+
+/* Info panel base */
+.info-panel{
+  --panel-bg: rgb(251, 246, 239);          /* soft info background */
+  --panel-accent: rgb(255, 162, 41);      /* accent blue */
+  --panel-text: rgb(70, 44, 10);
+
+  background: var(--panel-bg);
+  color: var(--panel-text);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  padding: 1rem 1.25rem 1rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .75rem 1rem;
+  align-items: start;
+  width: fit-content;        /* shrink to content */
+  max-width: 100%;           /* don’t overflow column */
+  border: 1px solid rgba(49,28,0,.15);
+  position: relative;
+}
+
+/* Accent strip on the left */
+.info-panel::before{
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: .75rem;
+  bottom: .75rem;
+  width: 6px;
+  border-radius: 6px;
+  background: var(--panel-accent);
+}
+
+/* Icon circle */
+.info-panel .icon{
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgb(255, 232, 201);
+  color: var(--panel-accent);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Title + body */
+.info-panel .title{
+  margin: 0; font-size: 0.95rem; font-weight: 700;
+}
+.info-panel .body{
+  grid-column: 2;             /* align with text area under title */
+  margin: 0; line-height: 1.55;
+}
+
+
 </style>
 </head>
 <body>
@@ -87,12 +162,39 @@
     <h1>Medicare Usage & Funding Across Australia</h1>
     <p class="desc">This dashboard explores how Australians use Medicare services over time and across states. We combine two datasets: 
         population by state and Medicare Benefits Schedule (MBS) claims (services, government benefits paid, and bulk-billing rates). “Bulk-billing” means the provider accepts the Medicare rebate as full payment so the patient pays $0 out-of-pocket.</p>
-
-    <!-- Row 1 -->
+  
+    
     <section class="row">
       <div class="left">
         <article class="card">
-          <p>
+            <h1>Medicare Usage & Funding Across Australia</h1>
+            <p class="desc">This dashboard explores how Australians use Medicare services over time and across states. 
+                We combine two datasets: population by state and Medicare Benefits Schedule (MBS) claims (services, government 
+                benefits paid, and bulk-billing rates). “Bulk-billing” means the provider accepts the Medicare rebate as full 
+                payment so the patient pays $0 out-of-pocket.
+            </p>
+  
+        </article>
+
+      </div>
+
+      <aside class="right">
+        <div class="card">
+          <h3>KPI</h3>
+
+        </div>
+      </aside>
+    </section>
+
+
+    <!-- Row 1 -->
+    <section class="row">
+        <div class="card">
+            <div id="map" class="chart"></div>
+        </div>
+
+        <article class="card-content">
+            <p>
             The map shows that the <b>Northern Territory (NT)</b> consistently recorded the <b>highest MBS bulk-billing rate</b> 
             across the past decade, and in this period remains the only state above <b>80%</b>, at <b>83.5%</b>. Interestingly, 
             it also has the <b>smallest population</b> in Australia. In contrast, the <b>Australian Capital Territory (ACT)</b> 
@@ -104,37 +206,53 @@
             may be influenced more by <b>population distribution and land size</b> than by population count alone.
         </p>
 
-        </article>
-
-      </div>
-
-      <aside class="right">
-        <div class="card">
-          <div id="map" class="chart"></div>
-                    <p>
-            The map shades each state by total population in the selected quarter. The label on each state shows its MBS bulk-billing 
-            rate for Total Medicare services (percentage of services that were fully bulk-billed). Use this to spot where population 
-            concentration and coverage differ.
+        <div class="info-panel" role="note" aria-label="Map explanation">
+        <div class="icon">i</div>
+        <h4 class="title">How to read this map</h4>
+        <p class="body">
+            The map shades each state by total population in the selected quarter. Labels show the MBS
+            bulk-billing rate (share of services fully bulk-billed). Use this to spot where population concentration
+            and coverage differ.
         </p>
         </div>
+
+        </article>
       </aside>
     </section>
 
+
     <!-- Row 2 -->
     <section class="row">
-      <div class="left">
-        <article class="card">
-          <h3>Row 2 • Left Top</h3>
-          <p>Another text block.</p>
-        </article>
-
-      </div>
-
-      <aside class="right">
         <div class="card">
-          <h3>Row 2 • Right Card</h3>
-          <p>Content for the right card in Row 2.</p>
+            <div id="stacked" class="chart"></div>
         </div>
+
+        <article class="card-content">
+            <p>
+                Across all states, Total GP Non-Referred Attendances consistently make up the largest share of services (around 37–42%), 
+                reflecting their role as the most common and general type of Medicare service. This is followed by Diagnostic Imaging and Practice Nurse services.
+            </p>
+            <p>
+                When viewed by Benefits ($) — which represent the government expenditure or rebate amount paid for each service — GPs still account for roughly 
+                40% of total benefits. However, the Practice Nurse share drops to below 0.5%, while other higher-cost services contribute more significantly. 
+                This difference likely reflects the variation in unit cost per service, as specialist or imaging services tend to attract higher benefit payments.
+            </p>
+            <p>
+                Overall, attendance volume and benefits are positively correlated, with states like New South Wales showing the highest totals in both measures. 
+                The composition pattern remains broadly consistent across states, indicating a stable national distribution of Medicare service types.
+            </p>
+
+        <div class="info-panel" role="note" aria-label="Map explanation">
+            <div class="icon">i</div>
+            <h4 class="title">How to read this map</h4>
+            <p class="body">
+                For the selected quarter, each bar sums to 100% within a state. Segment sizes show the share of service types (e.g., GP attendances, diagnostic 
+                imaging, pathology, obstetrics, etc.). The Metric control toggles the basis: Attendance = share of the number of services; Benefits ($) = share of 
+                government Benefits ($) paid. Hover to see the state, quarter, segment value, and its share.
+            </p>
+        </div>
+
+        </article>
       </aside>
     </section>
 
