@@ -67,7 +67,11 @@
       "field": "Broad Type of Service",
       "type": "nominal",
       "title": "Service type",
-      "legend": { "orient": "right" }
+      "legend": {
+        "orient": "bottom",
+        "direction": "horizontal",
+        "columns": 6
+      }
     },
     "tooltip": [
       { "field": "s_State", "title": "State" },

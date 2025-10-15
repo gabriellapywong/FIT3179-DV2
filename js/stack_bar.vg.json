@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Service Composition by State (100% Stacked)",
-  "width": 600,
+  "width": 800,
   "height": 320,
   "config": { "view": { "stroke": null } },
 
@@ -90,7 +90,12 @@
       "field": "Broad Type of Service",
       "type": "nominal",
       "title": "Service type",
-      "scale": { "scheme": "tableau10" }
+      "scale": { "scheme": "tableau10" },
+      "legend": {
+        "orient": "bottom",
+        "direction": "horizontal",
+        "columns": 6
+      }
     },
     "order": { "field": "Broad Type of Service", "type": "nominal" },
     "tooltip": [
