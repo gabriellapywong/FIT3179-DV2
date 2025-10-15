@@ -1,0 +1,31 @@
+css style 
+- for each chart in the card, make it resizable 
+
+layout
+- included KPI 
+- try to put the description (general highlight ) say the percentage 
+- side by side?
+    - left: the title, descripton, KPI 
+    - right: the map 
+- just an idea: for side by side, one side have 2 cards, 1 card saying the 
+highlight adn the other one say how to use this chart, the right side is the chart
+
+ALSO add keypoint/ highlight for each graph 
+
+
+map
+- resize the percentage 
+- two filter for time 
+    - one is year 
+    - one is quarter ( default to be Q1)
+- because the data isnt changing much, consider to have year (default quarter) instead? 
+    only shows all quarter (in period) for the trend 
+
+stack bar
+
+trend
+- change the dependence to be period
+- show both the period adn quarter in the tooltip
+- add a time slider depended on the period 
+- make sure it is not just using the Q1 data 
+- gride line by quarter instead of the default one 

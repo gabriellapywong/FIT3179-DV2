@@ -1,0 +1,172 @@
+<!-- https://gabriellapywong.github.io/FIT3179-DV2/ -->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Australia Medicare & Population — DV2</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+<style>
+  :root{
+    --gap: 1rem;
+    --radius: 16px;
+    --pad: 1rem;
+    --card-bg: #fff;
+    --card-border: 1px solid #e5e7eb;
+    --shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #f6f7fb; color: #111;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  /* Vertical container with fixed 15px horizontal padding */
+  .page {
+    width: 100%;
+    margin: 20px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--gap) * 1.25);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 0px;
+  }
+  .desc {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 0px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  /* Each horizontal container (row) */
+  .row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* equal width left/right */
+    gap: var(--gap);
+    align-items: stretch;
+  }
+
+  /* Cards */
+  .card{
+    background: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--radius);
+    padding: var(--pad);
+    box-shadow: var(--shadow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  /* Optional themed sides */
+  .card-left  { background: #f7f0ff; }   /* soft lilac */
+  .card-right { background: #fffdf2; }   /* soft warm */
+
+  /* Responsive: stack on small screens */
+  @media (max-width: 800px){
+    .row{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <main class="page">
+    <h1>Medicare Usage & Funding Across Australia</h1>
+    <p class="desc">This dashboard explores how Australians use Medicare services over time and across states. We combine two datasets: 
+        population by state and Medicare Benefits Schedule (MBS) claims (services, government benefits paid, and bulk-billing rates). “Bulk-billing” means the provider accepts the Medicare rebate as full payment so the patient pays $0 out-of-pocket.</p>
+
+    <!-- Row 1 -->
+    <section class="row">
+      <div class="left">
+        <article class="card">
+          <p>
+            The map shows that the <b>Northern Territory (NT)</b> consistently recorded the <b>highest MBS bulk-billing rate</b> 
+            across the past decade, and in this period remains the only state above <b>80%</b>, at <b>83.5%</b>. Interestingly, 
+            it also has the <b>smallest population</b> in Australia. In contrast, the <b>Australian Capital Territory (ACT)</b> 
+            recorded the <b>lowest rate</b> at <b>65.5%</b>, despite being the <b>second least populated</b> state.
+        </p>
+        <p>
+            The remaining states fall within a relatively narrow range of <b>72%–77%</b>, and the overall <b>ranking of states</b> 
+            by bulk-billing rate has stayed largely <b>stable over the past ten years</b>. This pattern suggests that bulk-billing rates 
+            may be influenced more by <b>population distribution and land size</b> than by population count alone.
+        </p>
+
+        </article>
+
+      </div>
+
+      <aside class="right">
+        <div class="card">
+          <div id="map" class="chart"></div>
+                    <p>
+            The map shades each state by total population in the selected quarter. The label on each state shows its MBS bulk-billing 
+            rate for Total Medicare services (percentage of services that were fully bulk-billed). Use this to spot where population 
+            concentration and coverage differ.
+        </p>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Row 2 -->
+    <section class="row">
+      <div class="left">
+        <article class="card">
+          <h3>Row 2 • Left Top</h3>
+          <p>Another text block.</p>
+        </article>
+
+      </div>
+
+      <aside class="right">
+        <div class="card">
+          <h3>Row 2 • Right Card</h3>
+          <p>Content for the right card in Row 2.</p>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Row 3 -->
+    <section class="row">
+      <div class="left">
+        <article class="card">
+          <h3>Row 3 • Left Top</h3>
+          <p>Use this card for any text or small components.</p>
+        </article>
+
+      </div>
+
+      <aside class="right">
+        <div class="card">
+          <h3>Row 3 • Right Card</h3>
+          <p>Right-side content for the third row.</p>
+        </div>
+      </aside>
+    </section>
+
+  </main>
+
+<script>
+    const MAP_SPEC_URL     = "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/map_final.vg.json";
+    const STACKED_SPEC_URL = "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/stack_bar.vg.json";
+    const TREND_SPEC_URL   = "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/js/trend.vg.json";
+
+    vegaEmbed("#map", MAP_SPEC_URL,     {actions:false});
+    vegaEmbed("#stacked", STACKED_SPEC_URL, {actions:false});
+    vegaEmbed("#trend", TREND_SPEC_URL,   {actions:false});
+
+</script>
+</body>
+</html>

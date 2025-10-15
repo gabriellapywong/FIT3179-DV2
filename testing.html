@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Two-Card Rows Template</title>
+<style>
+  :root{
+    --gap: 1rem;
+    --radius: 16px;
+    --pad: 1rem;
+    --card-bg: #fff;
+    --card-border: 1px solid #e5e7eb;
+    --shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #f6f7fb; color: #111;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  /* Vertical container with fixed 15px horizontal padding */
+  .page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--gap) * 1.25);
+  }
+
+  h1.main-title{
+    text-align: center;
+    margin: 0 0 12px;
+    font-size: 2rem;
+  }
+
+  /* Each horizontal container (row) */
+  .row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* equal width left/right */
+    gap: var(--gap);
+    align-items: stretch;
+  }
+
+  /* Cards */
+  .card{
+    background: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--radius);
+    padding: var(--pad);
+    box-shadow: var(--shadow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  /* Optional themed sides */
+  .card-left  { background: #f7f0ff; }   /* soft lilac */
+  .card-right { background: #fffdf2; }   /* soft warm */
+
+  /* Responsive: stack on small screens */
+  @media (max-width: 800px){
+    .row{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <h1 class="main-title">Medicare Usage & Funding — Template</h1>
+
+  <div class="page">
+    <!-- Row 1 -->
+    <section class="row">
+      <article class="card card-left">
+        <h3>Row 1 • Left</h3>
+        <p>Put your text/content here.</p>
+      </article>
+      <aside class="card card-right">
+        <h3>Row 1 • Right</h3>
+        <p>Chart, image, or details here.</p>
+      </aside>
+    </section>
+
+    <!-- Row 2 -->
+    <section class="row">
+      <article class="card card-left">
+        <h3>Row 2 • Left</h3>
+        <p>More content…</p>
+      </article>
+      <aside class="card card-right">
+        <h3>Row 2 • Right</h3>
+        <p>More content…</p>
+      </aside>
+    </section>
+
+    <!-- Row 3 -->
+    <section class="row">
+      <article class="card card-left">
+        <h3>Row 3 • Left</h3>
+        <p>More content…</p>
+      </article>
+      <aside class="card card-right">
+        <h3>Row 3 • Right</h3>
+        <p>More content…</p>
+      </aside>
+    </section>
+  </div>
+</body>
+</html>
