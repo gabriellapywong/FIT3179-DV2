@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Service Composition by State (100% Stacked)",
-  "width": 980,
+  "width": 900,
   "height": 320,
   "config": { "view": { "stroke": null } },
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "How Usage Changes Over Time — MBS Bulk-Billing Rate",
-  "width": 980,
+  "width": 900,
   "height": 320,
   "config": { "view": { "stroke": null } },
 
