@@ -7,25 +7,31 @@
 
   "params": [
     {
-      "name": "Quarter",
+      "name": "Year",
       "value": "2024-25 Q3 (Mar Qtr)",
       "bind": {
         "input": "select",
+        "labels": [
+          "2016","2017","2018","2019","2020",
+          "2021","2022","2023","2024","2025"
+        ],
         "options": [
-          "2015-16 Q1 (Sep Qtr)","2015-16 Q2 (Dec Qtr)","2015-16 Q3 (Mar Qtr)","2015-16 Q4 (Jun Qtr)",
-          "2016-17 Q1 (Sep Qtr)","2016-17 Q2 (Dec Qtr)","2016-17 Q3 (Mar Qtr)","2016-17 Q4 (Jun Qtr)",
-          "2017-18 Q1 (Sep Qtr)","2017-18 Q2 (Dec Qtr)","2017-18 Q3 (Mar Qtr)","2017-18 Q4 (Jun Qtr)",
-          "2018-19 Q1 (Sep Qtr)","2018-19 Q2 (Dec Qtr)","2018-19 Q3 (Mar Qtr)","2018-19 Q4 (Jun Qtr)",
-          "2019-20 Q1 (Sep Qtr)","2019-20 Q2 (Dec Qtr)","2019-20 Q3 (Mar Qtr)","2019-20 Q4 (Jun Qtr)",
-          "2020-21 Q1 (Sep Qtr)","2020-21 Q2 (Dec Qtr)","2020-21 Q3 (Mar Qtr)","2020-21 Q4 (Jun Qtr)",
-          "2021-22 Q1 (Sep Qtr)","2021-22 Q2 (Dec Qtr)","2021-22 Q3 (Mar Qtr)","2021-22 Q4 (Jun Qtr)",
-          "2022-23 Q1 (Sep Qtr)","2022-23 Q2 (Dec Qtr)","2022-23 Q3 (Mar Qtr)","2022-23 Q4 (Jun Qtr)",
-          "2023-24 Q1 (Sep Qtr)","2023-24 Q2 (Dec Qtr)","2023-24 Q3 (Mar Qtr)","2023-24 Q4 (Jun Qtr)",
-          "2024-25 Q1 (Sep Qtr)","2024-25 Q2 (Dec Qtr)","2024-25 Q3 (Mar Qtr)"
+          "2015-16 Q3 (Mar Qtr)","2016-17 Q3 (Mar Qtr)","2017-18 Q3 (Mar Qtr)",
+          "2018-19 Q3 (Mar Qtr)","2019-20 Q3 (Mar Qtr)","2020-21 Q3 (Mar Qtr)",
+          "2021-22 Q3 (Mar Qtr)","2022-23 Q3 (Mar Qtr)","2023-24 Q3 (Mar Qtr)",
+          "2024-25 Q3 (Mar Qtr)"
         ]
       }
     },
-    { "name": "metricMode", "value": "attendance", "bind": { "input": "select", "options": ["Attendance","Benefits ($)"] } }
+    { 
+      "name": "metricMode", 
+      "value": "Attendance", 
+      "bind": { 
+        "input": "select", 
+        "name": "Metric",
+        "options": ["Attendance","Benefits ($)"] 
+      } 
+    }
   ],
 
   "data": {
@@ -35,7 +41,7 @@
 
   "transform": [
     { "filter": "datum['s_State'] != 'Australia' && datum['s_State'] != 'Unknown'" },
-    { "filter": "datum['s_Quarter'] === Quarter" },
+    { "filter": "datum['s_Quarter'] === Year" },
     { "filter": "datum['Broad Type of Service'] != 'Total Medicare'" },
     { "filter": "datum['Broad Type of Service'] != 'Total Operations'" },
     { "filter": "datum['Broad Type of Service'] != 'Total Pathology'" },
@@ -100,7 +106,7 @@
     "order": { "field": "Broad Type of Service", "type": "nominal" },
     "tooltip": [
       { "field": "s_State", "title": "State" },
-      { "field": "s_Quarter", "title": "Quarter" },
+      { "field": "s_Quarter", "title": "Year" },
       { "field": "Broad Type of Service", "title": "Service type" },
       { "field": "Services_num", "title": "Number of services", "format": "~s" },
       { "field": "Benefits_num", "title": "Benefits (A$)", "format": "~s" },

@@ -29,55 +29,53 @@
 
   "data": {
     "url": "https://raw.githubusercontent.com/gabriellapywong/FIT3179-DV2/main/data/services_cleaned.csv",
-    "format": { "type": "csv" }
+    "format": {
+      "type": "csv",
+      "parse": { "s_Period": "date:'%d/%m/%Y'" }
+    }
   },
 
   "transform": [
     { "filter": "datum['s_State'] === StateSel" },
-
     { "filter": "datum['Broad Type of Service'] != 'Total Medicare'" },
     { "filter": "datum['Broad Type of Service'] != 'Total Operations'" },
     { "filter": "datum['Broad Type of Service'] != 'Total Pathology'" },
-
     { "calculate": "toNumber(datum['MBS Bulk Billing Rate (%)'])", "as": "mbs_rate" }
   ],
 
   "mark": {
     "type": "line",
-    "point": {
-      "filled": true
-    },
+  
     "interpolate": "monotone"
   },
 
   "encoding": {
     "x": {
-      "timeUnit": "yearquarter",
       "field": "s_Period",
       "type": "temporal",
-      "title": "Time (quarter)"
+      "title": "Date",
+      "axis": { "format": "%-d %b %Y", "labelOverlap": true }
     },
+
     "y": {
       "field": "mbs_rate",
       "type": "quantitative",
       "title": "Bulk-billing rate",
       "axis": { "format": ".1%" }
     },
+    "order": { "field": "s_Period", "type": "temporal" },
     "color": {
       "field": "Broad Type of Service",
       "type": "nominal",
       "title": "Service type",
-      "legend": {
-        "orient": "bottom",
-        "direction": "horizontal",
-        "columns": 6
-      }
+      "legend": { "orient": "bottom", "direction": "horizontal", "columns": 6 }
     },
     "tooltip": [
       { "field": "s_State", "title": "State" },
       { "field": "s_Quarter", "title": "Quarter" },
       { "field": "Broad Type of Service", "title": "Service type" },
-      { "field": "mbs_rate", "title": "MBS bulk-billing rate", "format": ".1%" }
+      { "field": "mbs_rate", "title": "MBS bulk-billing rate", "format": ".1%" },
+      { "field": "s_Period", "title": "Date", "type": "temporal", "format": "%-d %b %Y" }
     ]
   }
 }
